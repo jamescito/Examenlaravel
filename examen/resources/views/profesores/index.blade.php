@@ -64,10 +64,10 @@
 
                             
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                            <form action="{{ route('profesores.destroy', $profesor->id) }}" method="post">
+                            <form action="{{ route('profesores.destroy', $profesor->dni) }}" method="post">
                                 @csrf
                                 @method('DELETE')
-                                <a href="/profesores/{{ $profesor->id }}/edit" class="text-indigo-600 hover:text-indigo-900 mr-4"> Editar </a>
+                                <a href="/profesores/{{ $profesor->dni }}/edit" class="text-indigo-600 hover:text-indigo-900 mr-4"> Editar </a>
                                 <button type="submit" class="text-indigo-600 hover:text-indigo-900">Eliminar</a>
                             </form>
                             </td>

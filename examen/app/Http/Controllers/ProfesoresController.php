@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\profesore;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -27,6 +28,7 @@ class ProfesoresController extends Controller
     public function create()
     {
         //
+        return view('profesores.create');
     }
 
     /**
@@ -44,7 +46,7 @@ class ProfesoresController extends Controller
         $direccion=$request->get('direccion');
         $titulo=$request->get('titulo');
         $telefono=$request->get('telefono');
-        DB::Insert('insert into profesores(dni, nombre, apellido,direccion,titulo,telefono) values (?, ?, ?, ?, ?,?)',[$DNI,$nombre,$apellido, $direccion,$titulo,$telefono]);
+        DB::Insert('insert into profesores(dni, nombre, apellido, direccion, titulo, telefono) values (?, ?, ?, ?, ?,?)',[$DNI,$nombre,$apellido, $direccion,$titulo,$telefono]);
         return redirect('/profesores');
     }
 
@@ -65,9 +67,12 @@ class ProfesoresController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($DNI)
     {
         //
+        $profesores= profesore::find($DNI);
+        return view('profesore.edit')->with('profesores',$profesores);
+        return redirect('/profesores');
     }
 
     /**
@@ -77,9 +82,27 @@ class ProfesoresController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $DNI)
     {
         //
+         // $articulos= Articulo::find($id);
+        // $articulos->codigo = $request->get('codigo');
+        // $articulos->descripcion = $request->get('descripcion');
+        // $articulos->cantidad = $request->get('cantidad');
+        // $articulos->precio = $request->get('precio');
+    //     // $articulos->save();
+
+
+
+         $profesores= profesore::find($DNI);
+        $DNI=$request->get('dni');
+        $nombre=$request->get('nombre');
+        $apellido=$request->get('apellido');
+        $direccion=$request->get('direccion');
+        $titulo=$request->get('titulo');
+        $telefono=$request->get('telefono');
+        DB:: update('update profesores set nombre=?, apellido=?, direccion=?, titulo=?, telefono=? where dni=?', [$nombre,$apellido,$direccion,$titulo,$telefono,$DNI]);
+        return redirect('/profesores');
     }
 
     /**
@@ -91,5 +114,8 @@ class ProfesoresController extends Controller
     public function destroy($id)
     {
         //
+        $profesores=profesore::find($id);
+        $profesores->delete();
+        return redirect('/profesores');
     }
 }
